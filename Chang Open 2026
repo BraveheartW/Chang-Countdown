@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Chang Open Countdown</title>
+<style>
+  :root{
+    --bg:#0b3d2e;
+    --panel:#0f5a3c;
+    --gold:#caa64b;
+    --text:#ffffff;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: radial-gradient(ellipse at center, #0f5a3c 0%, var(--bg) 65%);
+    color:var(--text);
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+  }
+  .wrap{
+    width:min(1100px, 100%);
+    text-align:center;
+  }
+  .logo img{
+    height:110px;
+    width:auto;
+    filter: drop-shadow(0 10px 18px rgba(0,0,0,.35));
+  }
+  .title{
+    font-size:22px;
+    letter-spacing:2px;
+    opacity:.9;
+    margin:14px 0;
+  }
+  .timer{
+    display:flex;
+    justify-content:center;
+    gap:16px;
+    flex-wrap:wrap;
+  }
+  .box{
+    background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(0,0,0,.18)), var(--panel);
+    border: 3px solid var(--gold);
+    border-radius: 18px;
+    padding: 18px 22px 14px;
+    min-width: 160px;
+    box-shadow: 0 18px 40px rgba(0,0,0,.35);
+  }
+  .num{
+    font-size:64px;
+    font-weight:800;
+    line-height:1;
+  }
+  .label{
+    margin-top:8px;
+    font-size:14px;
+    letter-spacing:2px;
+  }
+  .meta{
+    margin-top:18px;
+    font-size:14px;
+    opacity:.85;
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="logo">
+      <img src="chang-logo.png" alt="Chang Open Logo">
+    </div>
+
+    <div class="title" id="statusTitle">COUNTDOWN</div>
+
+    <div class="timer">
+      <div class="box"><div class="num" id="days">00</div><div class="label">DAYS</div></div>
+      <div class="box"><div class="num" id="hours">00</div><div class="label">HOURS</div></div>
+      <div class="box"><div class="num" id="mins">00</div><div class="label">MINUTES</div></div>
+      <div class="box"><div class="num" id="secs">00</div><div class="label">SECONDS</div></div>
+    </div>
+
+    <div class="meta">
+      Until <b>11:10 AM · 14 Jan 2026</b> (Dubai Time · UTC+4)
+    </div>
+  </div>
+
+<script>
+  const TARGET_MS = new Date("2026-01-14T11:10:00+04:00").getTime();
+
+  function dubaiNow(){
+    return new Date(new Date().toLocaleString("en-US",{timeZone:"Asia/Dubai"}));
+  }
+
+  function tick(){
+    const diff = TARGET_MS - dubaiNow().getTime();
+    if(diff <= 0) return;
+
+    const d = Math.floor(diff / (1000*60*60*24));
+    const h = Math.floor(diff / (1000*60*60) % 24);
+    const m = Math.floor(diff / (1000*60) % 60);
+    const s = Math.floor(diff / 1000 % 60);
+
+    days.textContent = String(d).padStart(2,'0');
+    hours.textContent = String(h).padStart(2,'0');
+    mins.textContent = String(m).padStart(2,'0');
+    secs.textContent = String(s).padStart(2,'0');
+  }
+
+  tick();
+  setInterval(tick,1000);
+</script>
+</body>
+</html>
